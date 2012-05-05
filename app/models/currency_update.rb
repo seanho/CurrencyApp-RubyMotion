@@ -7,9 +7,10 @@ class CurrencyUpdate
     @timestamp = Time.at(hash['timestamp'])
     @base = hash['base']
     @infos = []
-    hash['rates'].keys.sort.each do |k|
-      @infos << CurrencyInfo.new(k, hash['rates'][k])
+    hash['rates'].each do |k,v|
+      @infos << CurrencyInfo.new(k, v)
     end
+    @infos.sort! {|x,y| x.name <=> y.name }
   end
   
   def self.latest

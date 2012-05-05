@@ -5,10 +5,9 @@ describe "CurrencyUpdate" do
   
   it "should assign attributes by hash" do
     update = CurrencyUpdate.new
-    update.assign({ "timestamp" => 1336197653, "base" => "USD", "rates" => { "AED" => 3.6732, "AFN" => 48.279999 } })
+    update.assign({ "timestamp" => 1336197653, "base" => "USD", "rates" => { "AED" => 3.6732 } })
     update.base.should == "USD"
     update.timestamp.to_s.should == '2012-05-05 16:00:53 +1000'
-    update.infos.size.should == 2
     update.infos.first.code.should == "AED"
     update.infos.first.rate.should == 3.6732
   end

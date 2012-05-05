@@ -17,11 +17,12 @@ class CurrenciesController < UIViewController
     @table_view.frame = self.content_frame
     @table_view.dataSource = self
     @table_view.delegate = self
+    @table_view.rowHeight = 60
     self.view.addSubview @table_view
     
     searchBar = UISearchBar.alloc.initWithFrame(CGRectZero)
     searchBar.showsCancelButton = true;
-    searchBar.placeholder = "Enter Currency Code"
+    searchBar.placeholder = "Find Currency"
     searchBar.keyboardType = UIKeyboardTypeAlphabet
     searchBar.sizeToFit
     @table_view.tableHeaderView = searchBar
@@ -63,7 +64,7 @@ class CurrenciesController < UIViewController
   def searchDisplayController(controller, shouldReloadTableForSearchString:searchOption)
     search_text = controller.searchBar.text.upcase
     if search_text.length > 0
-      @search_infos = @infos.select {|info| info.code.start_with?(search_text) }
+      @search_infos = @infos.select {|info| info.code.start_with?(search_text) || info.name.upcase.start_with?(search_text) }
       @table_view.reloadData
     end
     true
