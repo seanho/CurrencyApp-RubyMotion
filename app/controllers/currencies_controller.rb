@@ -1,16 +1,30 @@
 class CurrenciesController < UIViewController
+  attr_reader :infos, :table_view
+  
+  def init
+    if super
+      self.title = "Currency"
+      @infos = []
+    end
+    self
+  end
+  
+  def loadView
+    super
+    
+    @table_view = UITableView.alloc.initWithFrame(CGRectZero, style:UITableViewStylePlain)
+    @table_view.frame = self.content_frame
+    @table_view.dataSource = self
+    @table_view.delegate = self
+    self.view.addSubview @table_view
+  end
+  
   def viewDidLoad
-    self.title = "Currency"
-    
-    @infos = []
-    
-    @tableView = UITableView.alloc.initWithFrame(CGRectZero, style:UITableViewStylePlain)
-    @tableView.frame = self.content_frame
-    @tableView.dataSource = self
-    @tableView.delegate = self
-    self.view.addSubview @tableView
-    
     loadData
+  end
+  
+  def viewDidUnload
+    @table_view = nil
   end
   
   def loadData
@@ -24,9 +38,9 @@ class CurrenciesController < UIViewController
           alert.addButtonWithTitle "OK"
           alert.show
         else
-          self.title = update.timestamp.strftime("Last Update: %H:%M")
           @infos = update.infos
-          @tableView.reloadData
+          @table_view.reloadData
+          self.title = update.timestamp.strftime("Last Update: %H:%M")
         end
       end
     end
