@@ -14,7 +14,7 @@ class CurrencyInfoCell < UITableViewCell
       @code_label.font = UIFont.systemFontOfSize(12)
       self.addSubview(@code_label)
       
-      @rate_label = UILabel.alloc.initWithFrame(CGRectMake(210, 15, 100, 22))
+      @rate_label = UILabel.alloc.initWithFrame(CGRectMake(210, 18, 100, 22))
       @rate_label.textAlignment = UITextAlignmentRight
       @rate_label.adjustsFontSizeToFitWidth = true
       self.addSubview(@rate_label)

@@ -31,6 +31,7 @@ class CurrenciesController < UIViewController
     @search_controller.delegate = self
     @search_controller.searchResultsDataSource = self
     @search_controller.searchResultsDelegate = self
+    @search_controller.searchResultsTableView.rowHeight = 60
   end
   
   def viewDidLoad
@@ -91,5 +92,9 @@ class CurrenciesController < UIViewController
       info = @infos[indexPath.row]
       CurrencyInfoCell.cellForInfo(info, inTableView:tableView)
     end
+  end
+  
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    tableView.deselectRowAtIndexPath(indexPath, animated:true)
   end
 end
