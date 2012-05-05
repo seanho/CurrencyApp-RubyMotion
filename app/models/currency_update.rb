@@ -7,8 +7,8 @@ class CurrencyUpdate
     @timestamp = Time.at(hash['timestamp'])
     @base = hash['base']
     @infos = []
-    hash['rates'].each do |k,v|
-      @infos << CurrencyInfo.new(k, v)
+    hash['rates'].keys.sort.each do |k|
+      @infos << CurrencyInfo.new(k, hash['rates'][k])
     end
   end
   
