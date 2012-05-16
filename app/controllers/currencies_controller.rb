@@ -12,22 +12,17 @@ class CurrenciesController < UIViewController
   
   def loadView
     super
+
+    UI::Layouts.setup(view, controller: self) do
+      search_bar name: "search_bar", placeholder: "Find Currency", showsCancelButton: true, keyboardType: UIKeyboardTypeAlphabet do
+        @view.sizeToFit
+      end
+      table_view name: "table_view", right: 0, bottom: 0, dataSource: @controller, delegate: @controller, rowHeight: 60 do
+        @view.tableHeaderView = @view.superview.subview("search_bar")
+      end
+    end
     
-    @table_view = UITableView.alloc.initWithFrame(CGRectZero, style:UITableViewStylePlain)
-    @table_view.frame = self.content_frame
-    @table_view.dataSource = self
-    @table_view.delegate = self
-    @table_view.rowHeight = 60
-    self.view.addSubview @table_view
-    
-    searchBar = UISearchBar.alloc.initWithFrame(CGRectZero)
-    searchBar.showsCancelButton = true;
-    searchBar.placeholder = "Find Currency"
-    searchBar.keyboardType = UIKeyboardTypeAlphabet
-    searchBar.sizeToFit
-    @table_view.tableHeaderView = searchBar
-    
-    @search_controller = UISearchDisplayController.alloc.initWithSearchBar(searchBar, contentsController:self)
+    @search_controller = UISearchDisplayController.alloc.initWithSearchBar(view.subview("search_bar"), contentsController:self)
     @search_controller.delegate = self
     @search_controller.searchResultsDataSource = self
     @search_controller.searchResultsDelegate = self
@@ -46,15 +41,11 @@ class CurrenciesController < UIViewController
           alert.show
         else
           @infos = update.infos
-          @table_view.reloadData
+          view.subview("table_view").reloadData
           self.title = update.timestamp.strftime("Last Update: %H:%M")
         end
       end
     end
-  end
-  
-  def viewDidUnload
-    @table_view = nil
   end
   
   # UISearchDisplayDelegate dataSource and delegate
@@ -66,7 +57,7 @@ class CurrenciesController < UIViewController
     search_text = controller.searchBar.text.upcase
     if search_text.length > 0
       @search_infos = @infos.select {|info| info.code.start_with?(search_text) || info.name.upcase.start_with?(search_text) }
-      @table_view.reloadData
+      view.subview("table_view").reloadData
     end
     true
   end
