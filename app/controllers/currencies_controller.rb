@@ -1,6 +1,4 @@
 class CurrenciesController < UIViewController
-  attr_reader :infos, :table_view
-  
   def init
     if super
       self.title = "Currency"
@@ -17,16 +15,15 @@ class CurrenciesController < UIViewController
       search_bar name: "search_bar", placeholder: "Find Currency", showsCancelButton: true, keyboardType: UIKeyboardTypeAlphabet do
         @view.sizeToFit
       end
-      table_view name: "table_view", right: 0, bottom: 0, dataSource: @controller, delegate: @controller, rowHeight: 60 do
+      table_view name: "table_view", right: 0, bottom: 0, dataSource: @controller, delegate: @controller do
         @view.tableHeaderView = @view.superview.subview("search_bar")
       end
     end
     
-    @search_controller = UISearchDisplayController.alloc.initWithSearchBar(view.subview("search_bar"), contentsController:self)
+    @search_controller = UISearchDisplayController.alloc.initWithSearchBar(view.subview("table_view").tableHeaderView, contentsController:self)
     @search_controller.delegate = self
     @search_controller.searchResultsDataSource = self
     @search_controller.searchResultsDelegate = self
-    @search_controller.searchResultsTableView.rowHeight = 60
   end
   
   def viewDidLoad
@@ -65,6 +62,10 @@ class CurrenciesController < UIViewController
   # UITableView dataSource and delegate
   def numberOfSectionsInTableView(tableView)
     1
+  end
+  
+  def tableView(tableView, heightForRowAtIndexPath: indexPath)
+    60
   end
   
   def tableView(tableView, numberOfRowsInSection:section)
