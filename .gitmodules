@@ -1,3 +1,0 @@
-[submodule "vendor/SimpleView"]
-	path = vendor/SimpleView
-	url = git://github.com/seanho/SimpleView.git

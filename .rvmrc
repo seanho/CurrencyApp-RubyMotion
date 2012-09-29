@@ -1,2 +1,1 @@
-rvm_install_on_use_flag=1
-rvm use --create 1.9.3@currency
+rvm use 1.9.3@motion-currency --create
